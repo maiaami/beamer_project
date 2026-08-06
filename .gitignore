@@ -1,0 +1,19 @@
+# ビルド出力ディレクトリ
+out/
+
+# LaTeX 補助ファイル
+*.aux
+*.log
+*.toc
+*.snm
+*.nav
+*.out
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.bbl
+*.blg
+
+# OS固有の不要ファイル
+.DS_Store
+Thumbs.db
