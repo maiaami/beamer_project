@@ -1,0 +1,10 @@
+{
+  // 保存時に latexmk を自動実行する設定
+  "latex-workshop.latex.autoBuild.run": "onSave",
+  
+  // PDFの表示位置を右側に固定
+  "latex-workshop.view.pdf.viewer": "tab",
+  
+  // 清掃時に削除する拡張子リスト
+  "latex-workshop.latex.clean.subfolder.enabled": true
+}
