@@ -1,0 +1,251 @@
+\documentclass[10pt, aspectratio=169, dvipdfmx]{beamer}
+
+% -----------------------------------------------------------------------------
+% テーマとカラー設定（モダン＆アカデミックな配色）
+% -----------------------------------------------------------------------------
+\usetheme{Boadilla}
+\usecolortheme{rose}
+
+\definecolor{NavyBlue}{RGB}{20, 35, 60}
+\definecolor{AccentRed}{RGB}{160, 35, 45}
+\definecolor{BgGray}{RGB}{245, 247, 250}
+
+\setbeamercolor{structure}{fg=NavyBlue}
+\setbeamercolor{palette primary}{bg=NavyBlue, fg=white}
+\setbeamercolor{palette secondary}{bg=NavyBlue!80, fg=white}
+\setbeamercolor{palette tertiary}{bg=NavyBlue!60, fg=white}
+\setbeamercolor{titlelike}{bg=NavyBlue, fg=white}
+\setbeamercolor{block title}{bg=NavyBlue, fg=white}
+\setbeamercolor{block body}{bg=BgGray, fg=black}
+\setbeamercolor{block title example}{bg=NavyBlue!70!black, fg=white}
+\setbeamercolor{block body example}{bg=BgGray, fg=black}
+
+\setbeamertemplate{navigation symbols}{} % ナビゲーションバー非表示
+\setbeamertemplate{footline}[frame number] % ページ番号のみ表示
+
+% -----------------------------------------------------------------------------
+% パッケージ設定
+% -----------------------------------------------------------------------------
+\usepackage{amsmath, amsfonts, amsmath, amssymb, amsthm}
+\usepackage{bm}
+\usepackage{pxjahyper} % 日本語ハイパーリンク対応
+
+% -----------------------------------------------------------------------------
+% 演題情報
+% -----------------------------------------------------------------------------
+\title[大数の弱法則とBernstein多項式]{大数の弱法則とその応用\\--- Bernstein多項式による連続関数の近似 ---}
+\author[奥田 健]{北海道大学 理学部数学科 \\ 奥田 健}
+\date{2026年7月3日}
+
+% =============================================================================
+% 本文開始
+% =============================================================================
+\begin{document}
+
+% Title Frame
+\begin{frame}
+    \titlepage
+\end{frame}
+
+% Outline Frame
+\begin{frame}{目次}
+    \tableofcontents
+\end{frame}
+
+% -----------------------------------------------------------------------------
+% Section 1: はじめに＆確率収束
+% -----------------------------------------------------------------------------
+\section{導入：確率収束の定義と目指すゴール}
+
+\begin{frame}{1. 導入：標本平均の極限と収束の概念}
+    \begin{block}{直感的な概念}
+        サイコロを何回も振ったときの目の平均（標本平均）は、理論上の期待値 $3.5$ に近づく。
+    \end{block}
+
+    \pause
+    \begin{alertblock}{疑問}
+        $\bar{X}_n = \frac{1}{n}\sum_{i=1}^n X_i$ は\textbf{確率変数}である。\\
+        「確率変数が一定の値に近づく」とは数学的にどう定義されるか？
+    \end{alertblock}
+
+    \pause
+    \begin{definition}[確率収束 (Convergence in Probability)]
+        確率変数列 $\{X_n\}$ が確率変数 $X$ に\textbf{確率収束}するといは、任意の $\varepsilon > 0$ に対して以下が成り立つことをいう：
+        \[
+            \lim_{n \to \infty} P(|X_n - X| \ge \varepsilon) = 0 \quad (\text{記号: } X_n \xrightarrow{P} X)
+        \]
+    \end{definition}
+\end{frame}
+
+\begin{frame}{大数の弱法則}
+
+    \begin{block}{目標とする定理：大数の弱法則 (Weak Law of Large Numbers)}
+        $X_1, X_2, \dots$ を期待値が存在する（$E[|X_i|] < \infty$）独立同分布（i.i.d.）な確率変数列とし、$\mu = E[X_i]$ とする。
+        このとき、標本平均
+        \[
+            \bar{X}_n = \frac{S_n}{n} = \frac{1}{n}\sum_{i=1}^n X_i
+        \]
+        は $\mu$ に確率収束する。すなわち、
+        \[
+            \bar{X}_n \xrightarrow{P} \mu \quad (n \to \infty)
+        \]
+    \end{block}
+
+    \pause
+    \begin{itemize}
+        \item 条件は「$E[|X_i|] < \infty$」という非常に緩いもの。
+        \item 本発表では、まず扱いやすい\textbf{「分散が有限なケース」}を出発点として証明を与える。
+    \end{itemize}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+% Section 2: 分散有限の場合の大数の弱法則
+% -----------------------------------------------------------------------------
+\section{分散が有限な場合の大数の弱法則 ($L^2$弱法則)}
+
+\begin{frame}{2. 証明の武器：チェビシェフの不等式}
+    \begin{theorem}[チェビシェフの不等式 (Chebyshev's Inequality)]
+        $\phi: \mathbb{R} \to \mathbb{R}$ が非負かつ単調増加とし、$A \in \mathcal{B}(\mathbb{R})$ に対して $i_A = \inf \{\phi(x) : x \in A\}$ とおく。
+        任意の確率変数 $X$ に対して以下が成立する：
+        \[
+            i_A P(X \in A) \le E[\phi(X) 1_{\{X \in A\}}] \le E[\phi(X)]
+        \]
+    \end{theorem}
+
+    \pause
+    \begin{lemma}[$p$次平均収束と確率収束]
+        $p>0$ に対して、$E[|X_n|^p] \to 0$ ($n \to \infty$) ならば、$X_n \xrightarrow{P} 0$ である。
+    \end{lemma}
+
+    \begin{proof}
+        チェビシェフの不等式で $\phi(x) = |x|^p$, $A = \{x : |x| \ge \varepsilon\}$ とおくと、
+        \[
+            \varepsilon^p P(|X_n| \ge \varepsilon) \le E[|X_n|^p] \to 0 \quad \implies \quad P(|X_n| \ge \varepsilon) \to 0
+        \]
+    \end{proof}
+\end{frame}
+
+\begin{frame}{$L^2$ 弱法則の証明}
+    \begin{theorem}[$L^2$ 弱法則]
+        $X_1, X_2, \dots$ を $E[X_i] = \mu$, $\text{Var}(X_i) \le C < \infty$ を満たす無相関な確率変数列とする。
+        このとき、$S_n/n$ は $\mu$ に $L^2$（2次平均）収束かつ確率収束する。
+    \end{theorem}
+
+    \pause
+    \begin{proof}
+        無相関性より分散の加法性が成り立つため、標本平均の分散を直接計算できる：
+        \[
+            E\left[\left(\frac{S_n}{n} - \mu\right)^2\right] = \text{Var}\left(\frac{S_n}{n}\right) = \frac{1}{n^2}\sum_{i=1}^n \text{Var}(X_i) \le \frac{1}{n^2} \cdot nC = \frac{C}{n}
+        \]
+        \pause
+        $n \to \infty$ のとき $\frac{C}{n} \to 0$ であるから、$E\left[\left(\frac{S_n}{n} - \mu\right)^2\right] \to 0$ ($L^2$収束)。\\
+        前スライドの補題 ($p=2$) より、$\frac{S_n}{n} \xrightarrow{P} \mu$ (確率収束) も従う。
+    \end{proof}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+% Section 3: 応用例（Bernstein多項式による近似定理）
+% -----------------------------------------------------------------------------
+\section{応用例：Bernstein多項式による一様近似}
+
+\begin{frame}{3. 応用：Weierstrassの近似定理への確率論的アプローチ}
+    \begin{exampleblock}{Bernstein 多項式の定義}
+        閉区間 $[0, 1]$ 上の連続関数 $f(x)$ に対して、$n$ 次の \textbf{Bernstein 多項式} $f_n(x)$ を以下で定義する：
+        \[
+            f_n(x) = \sum_{m=0}^n \binom{n}{m} x^m (1-x)^{n-m} f\left(\frac{m}{n}\right)
+        \]
+    \end{exampleblock}
+
+    \pause
+    \begin{theorem}[Bernsteinの多項式近似定理]
+        $f \in C([0, 1])$ に対して、$f_n(x)$ は $f(x)$ に $[0, 1]$ 上で\textbf{一様収束}する：
+        \[
+            \lim_{n \to \infty} \sup_{x \in [0, 1]} |f_n(x) - f(x)| = 0
+        \]
+    \end{theorem}
+\end{frame}
+
+\begin{frame}{証明のアイデア：確率変数の導入}
+    $X_1, \dots, X_n$ を独立同分布な Bernoulli 確率変数とする：
+    \[
+        P(X_i = 1) = x, \quad P(X_i = 0) = 1-x \quad (x \in [0, 1])
+    \]
+    このとき、和 $S_n = \sum_{i=1}^n X_i$ は二項分布 $B(n, x)$ に従う。
+
+    \pause
+    \begin{itemize}
+        \item 平均の計算: $E\left[\frac{S_n}{n}\right] = x$, $\text{Var}\left(X_i\right) = x(1-x) \le \frac{1}{4}$
+        \item 確率の対応: $P(S_n = m) = \binom{n}{m} x^m (1-x)^{n-m}$
+    \end{itemize}
+
+    \pause
+    したがって、$f\left(\frac{S_n}{n}\right)$ の期待値を計算すると、**Bernstein多項式そのもの**になる！
+    \[
+        E\left[ f\left(\frac{S_n}{n}\right) \right] = \sum_{m=0}^n P(S_n = m) f\left(\frac{m}{n}\right) = f_n(x)
+    \]
+\end{frame}
+
+\begin{frame}{証明の展開：一様連続性と評価の分割}
+    期待値の差を不等式評価する：
+    \[
+        |f_n(x) - f(x)| = \left| E\left[ f\left(\frac{S_n}{n}\right) \right] - f(x) \right| \le E\left[ \left| f\left(\frac{S_n}{n}\right) - f(x) \right| \right]
+    \]
+
+    \pause
+    $f$ はコンパクト集合 $[0, 1]$ 上で連続なので\textbf{一様連続}。\\
+    任意に $\varepsilon > 0$ をとると、ある $\delta > 0$ が存在して以下が成立（$\delta$ は $x$ に依存しない）：
+    \[
+        |y - x| < \delta \implies |f(y) - f(x)| < \varepsilon
+    \]
+
+    \pause
+    また、$M = \sup_{x \in [0, 1]} |f(x)|$ とおけば、全域で $|f(y) - f(x)| \le 2M$。
+\end{frame}
+
+\begin{frame}{証明の完了：確率の集中による一様評価}
+    領域を $\{|S_n/n - x| < \delta\}$ と $\{|S_n/n - x| \ge \delta\}$ の2つに分割して評価：
+    \[
+        E\left[ \left| f\left(\frac{S_n}{n}\right) - f(x) \right| \right] \le \varepsilon \cdot P\left(\left|\frac{S_n}{n} - x\right| < \delta\right) + 2M \cdot P\left(\left|\frac{S_n}{n} - x\right| \ge \delta\right)
+    \]
+    \[
+        \le \varepsilon + 2M \cdot P\left(\left|\frac{S_n}{n} - x\right| \ge \delta\right)
+    \]
+
+    \pause
+    ここで、$L^2$ 弱法則の証明と同様にチェビシェフの不等式を適用：
+    \[
+        P\left(\left|\frac{S_n}{n} - x\right| \ge \delta\right) \le \frac{\text{Var}(S_n/n)}{\delta^2} = \frac{x(1-x)}{n \delta^2} \le \frac{1}{4n\delta^2}
+    \]
+
+    \pause
+    上界は $x$ に依存しないため、$n \to \infty$ で右辺は $0$ に一様収束する。
+    \[
+        \sup_{x \in [0, 1]} |f_n(x) - f(x)| \le \varepsilon + \frac{2M}{4n\delta^2} \xrightarrow{n \to \infty} \varepsilon \quad \implies \quad \sup_{x \in [0, 1]} |f_n(x) - f(x)| \to 0 \quad \blacksquare
+    \]
+\end{frame}
+
+% -----------------------------------------------------------------------------
+% Section 4: まとめと後半の展望
+% -----------------------------------------------------------------------------
+\section{まとめと後半の展望}
+
+\begin{frame}{4. まとめと今後の展望}
+    \begin{block}{前半のまとめ}
+        \begin{itemize}
+            \item 分散が有限な場合の大数の弱法則（$L^2$ 弱法則）は、チェビシェフの不等式により容易に導出できる。
+            \item 二項分布と組み合わせることで、Weierstrassの近似定理（Bernstein多項式による一様近似） を確率論的に証明できる。
+        \end{itemize}
+    \end{block}
+
+    \pause
+    \begin{alertblock}{後半への課題（可積分性 $E[|X|] < \infty$ のみへ）}
+        \begin{itemize}
+            \item 分散が定義できない（あるいは無限大になる）一般の分布ではどうするか？
+            \item $\to$ \textbf{三角配列に対する弱法則}と\textbf{確率変数の切断 (Truncation)} の手法が必要となる。
+        \end{itemize}
+    \end{alertblock}
+
+    
+\end{frame}
+
+\end{document}
