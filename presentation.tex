@@ -70,7 +70,7 @@
 
     \pause
     \begin{definition}[確率収束 (Convergence in Probability)]
-        確率変数列 $\{X_n\}$ が確率変数 $X$ に\textbf{確率収束}するといは、任意の $\varepsilon > 0$ に対して以下が成り立つことをいう：
+        確率変数列 $\{X_n\}$ が確率変数 $X$ に\textbf{確率収束}するとは、任意の $\varepsilon > 0$ に対して以下が成り立つことをいう：
         \[
             \lim_{n \to \infty} P(|X_n - X| \ge \varepsilon) = 0 \quad (\text{記号: } X_n \xrightarrow{P} X)
         \]
@@ -105,7 +105,7 @@
 
 \begin{frame}{2. 証明の道具：チェビシェフの不等式}
     \begin{theorem}[チェビシェフの不等式 (Chebyshev's Inequality)]
-        $\phi: \mathbb{R} \to \mathbb{R}$ が非負かつ単調増加とし、$A \in \mathcal{B}(\mathbb{R})$ に対して $i_A = \inf \{\phi(x) : x \in A\}$ とおく。
+        $\phi: \mathbb{R} \to \mathbb{R}$ を非負関数とし、$A \in \mathcal{B}(\mathbb{R})$ に対して $i_A = \inf \{\phi(x) : x \in A\}$ とおく。
         任意の確率変数 $X$ に対して以下が成立する：
         \[
             i_A P(X \in A) \le E[\phi(X) 1_{\{X \in A\}}] \le E[\phi(X)]
@@ -192,7 +192,7 @@
                   \bar{X}_{n, k} = X_k 1_{\{|X_k| \le n\}}
               \]
 
-            \item ルベーグの優収束定理による尾部評価：$X_k 1_{\{|X_k| \le n\}} \le |X_1| \in L^1$ より極限順序交換が可能
+            \item ルベーグの優収束定理による尾部評価：$|X_k| 1_{\{|X_k| \le n\}} \le |X_1| \in L^1$ より極限順序交換が可能
               \[
                   \lim_{x \to \infty} x P(|X_1| > x) \le \lim_{x \to \infty} E\left( |X_1| 1_{\{|X_1| > x\}} \right) = E\left( \lim_{x \to \infty} f_x \right) = 0
               \]
